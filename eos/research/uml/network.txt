@@ -1,0 +1,49 @@
+@startuml
+start
+:plugin_startup;
+
+if (需要启动监听) then (Yes)
+    :开启网络监听循环
+    start_listen_loop();
+    :针对每个Peer节点
+    start_session();
+    :接收网络消息
+    start_read_message();
+    :按类型处理网络消息
+    process_next_message();
+    while (true)
+        if (handshake_message) then (Yes)
+            :处理握手信息;
+        elseif (go_away_message) then (Yes)
+            :处理离开信息，断开连接;
+        elseif (notice_message) then (Yes)
+            :处理通知消息;
+        elseif (request_message) then (Yes)
+            :处理请求消息;
+        elseif (sync_request_message) then (Yes)
+            :处理同步请求消息;
+        elseif (signed_block) then (Yes)
+            :处理块消息;
+        elseif (packed_transaction) then (Yes)
+            :处理打包交易;
+        else (无效消息)
+            :异常处理;
+        endif
+    endwhile
+
+    else (continue)
+    :初始化，设置信号量;
+    :开始连接到peer节点;
+    while (每一个节点)
+        if (连接成功) then (yes)
+            :发送握手消息
+            send_handshake();
+        else (no)
+            :报错，关闭连接;
+        endif
+    endwhile
+
+endif
+
+end
+@enduml

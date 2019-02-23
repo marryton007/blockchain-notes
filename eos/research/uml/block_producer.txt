@@ -1,0 +1,26 @@
+@startuml
+start
+:plugin_startup;
+:出块主循环
+schedule_production_loop();
+:尝试打包
+start_block();
+if (尝试打包失败) then (yes)
+	:稍后再次进入主循环
+	schedule_production_loop();
+elseif (需要等待) then (yes)
+	:进入休眠循环，直到新包到来
+	schedule_delayed_production_loop();
+elseif (当前是出块状态) then (yes)
+	if (尝试打包成功) then (yes)
+	elseif (时间耗尽) then (yes)
+	endif
+	:进入出块流程
+	maybe_produce_block;
+else (no)
+:进入休眠循环，直到新包到来
+schedule_delayed_production_loop();
+endif
+
+end
+@enduml

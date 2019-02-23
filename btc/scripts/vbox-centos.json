@@ -1,0 +1,10 @@
+{
+	"name": "centos/7",
+	"versions": [{
+		"version": "1804.02",
+		"providers": [{
+			"name": "hyperv",
+			"url": "file:///H:/download/CentOS-7-x86_64-Vagrant-1804_02.HyperV.box"
+		}]
+	}]
+}

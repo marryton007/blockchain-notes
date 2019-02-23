@@ -1,0 +1,13 @@
+@startuml
+actor Client as cli
+participant "Net_plugin" as net
+participant "Chain_plugin" as chain
+participant "Producer_plugin" as bp
+
+cli -> net: 发起交易请求\npush_transaction
+net -> chain: 执行交易请求\npush_transaction，\n修改本地状态
+chain -> chain: 存储交易至pending, 等待出块
+chain -> net: 广播交易至网络
+bp -> bp: bp定时唤醒，\n开始出块，\n计算Hash，\n签名
+bp -> net: 广播块至网络
+@enduml

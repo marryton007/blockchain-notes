@@ -1,0 +1,24 @@
+@startuml
+
+entity 网络模块  as N
+entity 核心模块 as C
+entity 生产模块 as P
+
+N -> N: 处理块消息\nhandle_message(signed_block)
+N -> C: accept_block
+C -> C: incoming_block_sync_method
+C -> P: on_incoming_block
+P -> C: 回滚sending\nabort_block
+P -> C: push_block
+C -> C: 分叉处理\nmaybe_switch_forks
+C -> C: apply_block
+C -> C: 发起get_on_block_transaction交易\nstart_block
+C -> C: 依次处理块中的交易\nhandle block's transactions
+C -> C: 计算merkel_tree\nfinalize_block
+C -> C: 块签名\nsign block
+C -> C: 提交块到fork_db\ncommit_block
+C -> N: 块广播\nbcast_block
+
+
+
+@enduml

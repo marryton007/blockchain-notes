@@ -1,0 +1,17 @@
+@startuml
+skinparam handwritten true
+actor APP
+participant "充值服务" as L
+participant DB
+APP -> L: 用户注册请求
+L -> L: 为用户分配BTC/ETH地址
+L -> APP: 返回结果
+
+group 循环
+    L -> L: 监听钱包转账事件
+    APP -> L: 向分配的地址转账
+    L -> L: 解析事件，得到充值地址
+    L -> DB: 在数据库增加充值记录
+    L -> L: 调用其他业务逻辑
+end
+@enduml

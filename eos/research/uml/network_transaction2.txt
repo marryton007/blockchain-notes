@@ -1,0 +1,13 @@
+@startuml
+
+entity 网络模块  as N
+entity 核心模块 as C
+entity 生产模块 as P
+
+N -> C: 处理交易消息\nhandle_message(packed_transaction)
+C -> C: accept_transaction
+C -> P: on_incoming_transaction_async
+P -> C: 执行交易\npush_transaction
+C -> N: 广播交易\nbcast_transaction
+
+@enduml

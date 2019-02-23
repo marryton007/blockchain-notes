@@ -1,0 +1,11 @@
+
+@startuml
+skinparam handwritten true
+actor IOS
+participant "BTC API" as L
+IOS -> L: 发起请求，查询钱包余额
+L -> L: 根据参数获取钱包中所有地址
+L -> L: 查询所有地址余额
+L -> L: 汇总
+L -> IOS: 返回钱包余额
+@enduml

@@ -1,0 +1,105 @@
+🔥 ALL BPs Please upgrade to v1.2.5 and check if you on right fork !  EOS  Jungle Testnetwork (EOSIO repo). 
+In case you can't sync - check manual below.
+
+Release: https://github.com/EOSIO/eos/releases/tag/v1.2.5
+
+Jungle Chain is with final EOS distribution. Till block 25 500 its like minenet without eosio resign. 
+————————————————
+❗️🛠 If you are Not synced or on wrong fork, you need to downgrade to v1.1.0 sync node and upgrade:
+1. stop node.
+2. downgrade to v1.1.0
+3. replace peers in config (http://jungle.cryptolions.io/#p2p)
+4. Please add checkpoint to your config:
+checkpoint = [13433968, "00ccfc70c981d1fea9a647eb856468feaef5ff6b6b85155e22283f6d4beb8b0b"]
+5.  ./start.sh --hard-replay --truncate-at-block 10421900
+6. When replay completes it will stop syncing few block later, after it happens please stop node and upgrade.
+6. Upgrade to v1.2.5
+
+———-
+Last Blocks Snapshot (after fork, 13.65Mi blocks): 
+Blocks:
+http://jungle.cryptolions.io/blocks/blocks-Jungle-2018_09_10-12_24.tar.gz
+State (chain-state-db-size-mb = 32768):
+http://jungle.cryptolions.io/blocks/state-Jungle-2018_09_10-12_24.tar.gz
+
+Testnet Monitor: http://jungle.cryptolions.io
+Mainnet Monitor: http://eosnetworkmonitor.io/
+Manual installation and help scripts: https://github.com/CryptoLions/EOS-Jungle-Testnet
+
+Admins: @BohdanCryptoLions, @xaviercr,  @steemalf, @jcjc_1б @JR_Crypt, Tristan . You can also contact:  @romanskaskiw
+
+To register your node and get personal installation script, plese visit:
+http://jungle.cryptolions.io/#register
+
+❗️In case manual installation set token format   to EOS
+./eosio_build.sh -s EOS
+
+
+Please update peers list in config from here: 
+http://jungle.cryptolions.io/#p2p
+
+Genesis: https://github.com/CryptoLions/EOS-Jungle-Testnet/raw/master/genesis.json
+
+To init node please do first run with parametrs:
+./start.sh --delete-all-blocks --genesis-json genesis.json
+
+Check if you have in config (this value should not be bigger than you RAM):
+chain-state-db-size-mb = 32768
+
+❗️To disable extra validation (nodes without domain) please add in config: 
+http-validate-host = false  
+
+Change limits for your system, add in your start.sh:
+ulimit -n 65535
+ulimit -s 64000
+ 
+In case  --hard-replay fails, please remove blocks/reversible folder and try --hard-replay again
+
+Get endpoint Info: https://t.me/jungletestnet/38053
+
+🛠 New small monitor update.. Grey color -  node disabled. If node is more then ~ 12h red - it will be auto disabled from checking in monitor. To enable again please reregister with same name and key
+
+Also please reinit your telegram bot to get pm on you  node(s) up/down @JungleTestnet_bot
+
+After syncing use prepared scripts (in testnet folder) to register node to producer list and vote..
+bp01_registerProducer.sh
+bp02_stakeTokens.sh
+bp03_voteProducer.sh
+
+How to help voting using Monitor:
+https://t.me/jungletestnet/19081
+
+Jungle testnet bot returned @JungleTestnet_bot  - send private telegram notification about node down/up. 
+To activate bot just click on bot and type: 
+/init <node_name>
+
+if you woud like to get notofication from few nodes:
+/init <node_name1> <node_name2> <node_name3>
+
+Full history node (filter-on = *):
+http://junglehistory.cryptolions.io:18888/v1/chain/get_info
+Esio history node (filte-on = eosio*):
+https://api.jungle.alohaeos.com
+
+
+Send EOS
+./cleos.sh transfer <your account>  <receiver account> "1.0000 EOS" "test memo text"
+
+Get Balance
+./cleos.sh get currency balance eosio.token <account name>
+
+To create account:
+./cleos.sh system newaccount --stake-net "100.0000 EOS" --stake-cpu "100.0000 EOS" --buy-ram-kbytes 4 <your accountr> <new account> <owner_pup_key> <active_pub_key>
+
+List registered producers (-l <limit>)
+./cleos.sh get table eosio eosio producers -l 100
+
+List staked/delegated
+./cleos.sh system listbw <account>
+
+Bnet endpoints:
+bnet-connect = jungle.cryptolions.io:19875
+bnet-connect = jungle.cryptolions.io:39875
+bnet-connect = 193.93.219.219:9875
+—-----
+Manual Installation : https://github.com/CryptoLions/EOS-Jungle-Testnet

@@ -1,0 +1,45 @@
+diff --git a/docker/Dockerfile b/docker/Dockerfile
+index 82f6450..23739aa 100644
+--- a/docker/Dockerfile
++++ b/docker/Dockerfile
+@@ -1,2 +1,2 @@
+-FROM eosio/eos:v1.2.4
++FROM eosio/eos:v1.2.5
+ COPY config.ini /
+diff --git a/docker/docker-compose.yml b/docker/docker-compose.yml
+index 02d7388..1be95ca 100644
+--- a/docker/docker-compose.yml
++++ b/docker/docker-compose.yml
+@@ -2,15 +2,17 @@ version: "2"
+ 
+ services:
+   nodeosd:
+-    image: eosio/eos:v1.2.4
++    image: eosio/eos:v1.2.5
+     build:
+       context: .
+       dockerfile: Dockerfile
+       #args:
+       #  branch: master
+ 
+-    command: /opt/eosio/bin/nodeosd.sh --verbose-http-errors --max-transaction-time=1000 --data-dir /opt/eosio/bin/data-dir -e --http-alias=nodeosd:8888 --http-alias=127.0.0.1:8888 --http-alias=localhost:8888 --access-control-allow-origin "*"
++    command: /opt/eosio/bin/nodeosd.sh --contracts-console --verbose-http-errors --max-transaction-time=1000 --data-dir /opt/eosio/bin/data-dir -e --http-alias=nodeosd:8888 --http-alias=127.0.0.1:8888 --http-alias=localhost:8888 --access-control-allow-origin "*"
+     hostname: nodeosd
++    volumes:
++      - "/home/jiaxi/git/code:/tmp/contracts"
+     ports:
+       - 8888:8888
+       - 9876:9876
+@@ -18,9 +20,11 @@ services:
+       - "8888"
+ 
+   keosd:
+-    image: eosio/eos:v1.2.4
++    image: eosio/eos:v1.2.5
+     command: /opt/eosio/bin/keosd --wallet-dir /opt/eosio/bin/data-dir --http-server-address=127.0.0.1:8900 --http-alias=keosd:8900 --http-alias=localhost:8900
+     hostname: keosd
++    volumes:
++      - "/home/jiaxi/git/code:/tmp/contracts"
+     ports:
+       - 8900:8900
+     links:

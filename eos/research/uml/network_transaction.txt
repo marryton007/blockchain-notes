@@ -1,0 +1,14 @@
+@startuml
+actor 客户端 as CLI
+entity 网络api模块 as  NA
+entity 核心模块 as C
+entity 生产模块 as P
+entity 网络模块  as N
+
+CLI -> NA:  调用API\npush_transaction
+NA -> C: read_write\npush_transactionn
+C -> P: on_incoming_transaction_async
+P -> C: 执行交易\npush_transactionn
+C -> N: 广播交易\nbcast_transaction
+
+@enduml

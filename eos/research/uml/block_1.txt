@@ -1,0 +1,22 @@
+@startuml
+
+entity 生产模块 as P
+entity 核心模块 as C
+entity 网络模块  as N
+
+P -> C: start_block
+P -> C: 回滚pending\nabort_block
+P -> C: start_block
+C -> C: init pending
+C -> C: 发起一个出块交易\npush_transaction(get_on_block_transaction)
+C -> P: return
+P -> P: handle unapplied_transactions
+P -> P: handle delayed_transactions
+P -> P: maybe_produce_block
+P -> P: produce_block
+P -> C: 计算merkel tree\nfinalize_block
+P -> C: 对包签名\nsign_block
+P -> C: 提交块到fork_db\ncommit_block
+C -> N: 广播块\nbcast_block
+
+@enduml
